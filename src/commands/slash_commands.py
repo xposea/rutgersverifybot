@@ -8,6 +8,8 @@ from src.database.firebase import is_agreement_channel, has_agreement_roles, db
 from src.commands.modals import SelectMenu, HubMenu
 from src.commands.configs import MainMenu
 
+import requests
+
 plugin = lightbulb.Plugin("slash_plugin")
 
 
@@ -198,7 +200,9 @@ async def on_ping(event: hikari.GuildMessageCreateEvent):
         return
     if plugin.bot.get_me().mention not in event.content:
         return
-    await event.message.respond(r"meow /ᐠ۪. ̱ . ۪ᐟ\\ﾉ")
+    await event.message.respond(
+        r"meow /ᐠ۪. ̱ . ۪ᐟ\\ﾉ",
+        attachment=hikari.Bytes(requests.get('https://cataas.com/cat/cute').content, 'meow.png'))
 
 
 # Custom help command, needs lots of fine-tuning.
