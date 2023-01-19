@@ -153,7 +153,7 @@ async def server_hub(ctx: lightbulb.SlashContext):
             status = True
         if status:
             available_guilds[guild.id] = guild
-    if len(available_guilds) is 0:
+    if len(available_guilds) == 0:
         await ctx.respond(
             "There are no servers to hub to.",
             components=[],
@@ -202,7 +202,10 @@ async def on_ping(event: hikari.GuildMessageCreateEvent):
         return
     await event.message.respond(
         r"meow /ᐠ۪. ̱ . ۪ᐟ\\ﾉ",
-        attachment=hikari.Bytes(requests.get('https://cataas.com/cat/cute').content, 'meow.png'))
+        attachment=hikari.Bytes(
+            requests.get("https://cataas.com/cat/cute").content, "meow.png"
+        ),
+    )
 
 
 # Custom help command, needs lots of fine-tuning.
