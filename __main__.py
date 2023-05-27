@@ -1,9 +1,6 @@
-from src.bot import run
-
-
-def main():
-    run()
+from src.bot import NewBot
 
 
 if __name__ == "__main__":
-    main()
+    bot = NewBot()
+    bot.run()
