@@ -9,6 +9,8 @@ from src.database.firebase import is_agreement_channel, has_agreement_roles
 from src.commands.modals import SelectMenu, HubMenu
 from src.commands.configs import MainMenu
 
+import requests
+
 plugin = lightbulb.Plugin("slash_plugin")
 
 
