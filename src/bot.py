@@ -8,6 +8,7 @@ import lightbulb
 
 
 class NewBot(lightbulb.BotApp):
+    __slots__ = ('guilds', 'users', 'verified_netids', 'db')
     def __init__(self) -> None:
         self.guilds = {}
         self.users = {}

@@ -7,6 +7,7 @@ from src.commands import menu_commands as mc
 
 
 class MainMenu(miru.View):
+    __slots__ = ('author',)
     def __init__(self, author, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.add_item(CloseMenu(author))
@@ -75,6 +76,7 @@ class MainMenu(miru.View):
 
 
 class ModerationMenu(miru.View):
+    __slots__ = ('author',)
     def __init__(self, author, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.add_item(MainMenuButton(author))
@@ -195,6 +197,7 @@ class ModerationMenu(miru.View):
 
 
 class AgreementMenu(miru.View):
+    __slots__ = ('author',)
     def __init__(self, author, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.add_item(MainMenuButton(author))
@@ -667,6 +670,7 @@ class AgreementMenu(miru.View):
 
 
 class RolesView(miru.Select):
+    __slots__ = ('author', 'roles_dict', 'result_function')
     def __init__(
         self, roles_dict: dict, result_function, author, *args, **kwargs
     ) -> None:
@@ -730,6 +734,7 @@ class RolesView(miru.Select):
 
 
 class WelcomeMenu(miru.View):
+    __slots__ = ('author',)
     def __init__(self, author, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.add_item(MainMenuButton(author))
@@ -886,6 +891,7 @@ class WelcomeMenu(miru.View):
 
 
 class AgreementMenuButton(miru.Button):
+    __slots__ = ('author',)
     def __init__(self, author):
         super().__init__(
             emoji="↩️",
@@ -911,6 +917,7 @@ class AgreementMenuButton(miru.Button):
 
 
 class WelcomeMenuButton(miru.Button):
+    __slots__ = ('author',)
     def __init__(self, author):
         super().__init__(
             emoji="↩️",
@@ -936,6 +943,7 @@ class WelcomeMenuButton(miru.Button):
 
 
 class ModerationMenuButton(miru.Button):
+    __slots__ = ('author',)
     def __init__(self, author):
         super().__init__(
             emoji="↩️",
@@ -961,6 +969,7 @@ class ModerationMenuButton(miru.Button):
 
 
 class CloseMenu(miru.Button):
+    __slots__ = ('author',)
     def __init__(self, author):
         super().__init__(label="Close Menu", style=hikari.ButtonStyle.DANGER)
         self.author = author
@@ -979,6 +988,7 @@ class CloseMenu(miru.Button):
 
 
 class MainMenuButton(miru.Button):
+    __slots__ = ('author',)
     def __init__(self, author):
         super().__init__(label="Main Menu", style=hikari.ButtonStyle.SECONDARY)
         self.author = author
@@ -1008,6 +1018,7 @@ class MainMenuButton(miru.Button):
 
 
 class EnableButton(miru.Button):
+    __slots__ = ('author',)
     def __init__(self, author):
         super().__init__(label="Enable", style=hikari.ButtonStyle.SUCCESS)
         self.author = author
@@ -1036,6 +1047,7 @@ class EnableButton(miru.Button):
 
 
 class DisableButton(miru.Button):
+    __slots__ = ('author',)
     def __init__(self, author):
         super().__init__(label="Disable", style=hikari.ButtonStyle.DANGER)
         self.author = author
@@ -1064,6 +1076,7 @@ class DisableButton(miru.Button):
 
 
 class EnableHubButton(miru.Button):
+    __slots__ = ('author',)
     def __init__(self, author):
         super().__init__(label="Enable", style=hikari.ButtonStyle.SUCCESS)
         self.author = author
@@ -1090,6 +1103,7 @@ class EnableHubButton(miru.Button):
 
 
 class DisableHubButton(miru.Button):
+    __slots__ = ('author',)
     def __init__(self, author):
         super().__init__(label="Disable", style=hikari.ButtonStyle.DANGER)
         self.author = author
@@ -1116,6 +1130,7 @@ class DisableHubButton(miru.Button):
 
 
 class EnableChainButton(miru.Button):
+    __slots__ = ('author',)
     def __init__(self, author):
         super().__init__(label="Enable", style=hikari.ButtonStyle.SUCCESS)
         self.author = author
@@ -1147,6 +1162,7 @@ class EnableChainButton(miru.Button):
 
 
 class DisableChainButton(miru.Button):
+    __slots__ = ('author',)
     def __init__(self, author):
         super().__init__(label="Disable", style=hikari.ButtonStyle.DANGER)
         self.author = author

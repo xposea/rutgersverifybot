@@ -7,6 +7,7 @@ from src.database import firebase as fb
 
 
 class HubMenu(miru.Select):
+    __slots__ = ("guilds",)
     def __init__(self, guilds, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.guilds = guilds
@@ -47,6 +48,7 @@ class HubMenu(miru.Select):
 
 
 class SelectMenu(miru.Select):
+    __slots__ = ("db_guild",)
     def __init__(self, db_guild, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.db_guild = db_guild
@@ -97,6 +99,7 @@ class SelectMenu(miru.Select):
 
 
 class ModalView(miru.View):
+    __slots__ = ("role", "db_guild")
     def __init__(self, role, db_guild, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.role = role
@@ -113,6 +116,7 @@ class ModalView(miru.View):
 
 
 class FirstModal(miru.Modal):
+    __slots__ = ("role", "db_guild")
     def __init__(self, role, db_guild, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.role = role
@@ -150,6 +154,7 @@ class FirstModal(miru.Modal):
 
 
 class VercodeView(miru.View):
+    __slots__ = ("role", "db_guild", "netid")
     def __init__(self, role, db_guild, netid, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.role = role
@@ -168,6 +173,7 @@ class VercodeView(miru.View):
 
 
 class SecondModal(miru.Modal):
+    __slots__ = ("role", "db_guild", "netid")
     def __init__(self, role, netid, db_guild, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.role = role
