@@ -264,6 +264,22 @@ async def on_ping(event: hikari.GuildMessageCreateEvent):
         # ),
     )
 
+@plugin.listener(hikari.DMMessageCreateEvent)
+async def refresh_db(event: hikari.DMMessageCreateEvent):
+    if event.author_id != 193736005239439360:
+        return
+    if event.message.content != "refresh":
+        return
+    for guild in await plugin.bot.rest.fetch_my_guilds():
+        plugin.bot.guilds[guild.id] = plugin.bot.db.child("guilds").child(guild.id).get().val() or {}
+    plugin.bot.users = {int(k): v for k, v in plugin.bot.db.child("users").get().val().items()}
+    plugin.bot.verified_netids = plugin.bot.db.child("verified_netids").get().val()
+    if not plugin.bot.users:
+        plugin.bot.users = {}
+    if not plugin.bot.verified_netids:
+        plugin.bot.verified_netids = {}
+    await event.message.respond("Database refreshed.")
+
 
 # Custom help command, needs lots of fine-tuning.
 class CustomHelp(lightbulb.BaseHelpCommand):
