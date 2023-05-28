@@ -47,9 +47,7 @@ async def message_edit(event: hikari.GuildMessageUpdateEvent) -> None:
 async def message_delete(event: hikari.GuildMessageDeleteEvent):
     try:
         moderation_channel = plugin.bot.guilds[event.guild_id]["moderation_channel"]
-    except KeyError:
-        return
-    except TypeError:
+    except (KeyError, TypeError):
         return
     if not moderation_channel:
         return
@@ -69,17 +67,16 @@ async def message_delete(event: hikari.GuildMessageDeleteEvent):
         return
     if guild.owner_id == user.id:
         return
-    else:
-        guild_roles = guild.get_roles()
-        member_roles = list(
-            filter(lambda r: r.id in user.role_ids, guild_roles.values())
-        )
-        permissions: hikari.Permissions = guild_roles[
-            guild.id
-        ].permissions  # Start with @everyone perms
+    guild_roles = guild.get_roles()
+    member_roles = list(
+        filter(lambda r: r.id in user.role_ids, guild_roles.values())
+    )
+    permissions: hikari.Permissions = guild_roles[
+        guild.id
+    ].permissions  # Start with @everyone perms
 
-        for role in member_roles:
-            permissions |= role.permissions
+    for role in member_roles:
+        permissions |= role.permissions
     if permissions & hikari.Permissions.ADMINISTRATOR:
         return
     if permissions & hikari.Permissions.MANAGE_GUILD == hikari.Permissions.MANAGE_GUILD:
@@ -109,18 +106,16 @@ async def agreement_channel_delete(event: hikari.GuildMessageCreateEvent):
         return
     try:
         agreement_channel = plugin.bot.guilds[event.guild_id]["agreement_channel"]
-    except KeyError:
-        return
-    except TypeError:
+    except (KeyError, TypeError):
         return
     if agreement_channel is None:
         return
-    if not event.channel_id == agreement_channel:
+    if event.channel_id != agreement_channel:
         return
     if (
-        not lightbulb.utils.permissions.permissions_for(event.member)
+        lightbulb.utils.permissions.permissions_for(event.member)
         & hikari.Permissions.MANAGE_GUILD
-        == hikari.Permissions.MANAGE_GUILD
+        != hikari.Permissions.MANAGE_GUILD
     ):
         await event.message.delete()
 

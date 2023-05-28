@@ -52,10 +52,10 @@ async def send_email(bot: NewBot, netid: str, author_id: int) -> None:
 async def is_agreement_channel(ctx: lightbulb.Context) -> bool:
     try:
         agreement_channel = ctx.bot.guilds[ctx.guild_id]["agreement_channel"]
-    except KeyError:
+    except KeyError as e:
         raise lightbulb.errors.CheckFailure(
             "This server has not set up an agreement channel yet."
-        )
+        ) from e
     if int(ctx.channel_id) == agreement_channel:
         return True
     else:
@@ -67,10 +67,10 @@ async def is_agreement_channel(ctx: lightbulb.Context) -> bool:
 async def has_agreement_roles(ctx: lightbulb.Context) -> bool:
     try:
         all_roles = ctx.bot.guilds[ctx.guild_id]["all_roles"]
-    except KeyError:
+    except KeyError as e:
         raise lightbulb.errors.CheckFailure(
             "This server has not set up agreement roles yet."
-        )
+        ) from e
     return bool(all_roles)
 
 

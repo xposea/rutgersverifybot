@@ -1126,8 +1126,7 @@ class EnableChainButton(miru.Button):
         try:
             ctx.bot.guilds[ctx.guild_id]["chains"]["allow_chains"] = True
         except KeyError:
-            ctx.bot.guilds[ctx.guild_id]["chains"] = {}
-            ctx.bot.guilds[ctx.guild_id]["chains"]["allow_chains"] = True
+            ctx.bot.guilds[ctx.guild_id]["chains"] = {"allow_chains": True}
         ctx.bot.db.child("guilds").child(ctx.guild_id).child("chains").child(
             "allow_chains"
         ).set(True)
@@ -1158,8 +1157,7 @@ class DisableChainButton(miru.Button):
         try:
             ctx.bot.guilds[ctx.guild_id]["chains"]["allow_chains"] = False
         except KeyError:
-            ctx.bot.guilds[ctx.guild_id]["chains"] = {}
-            ctx.bot.guilds[ctx.guild_id]["chains"]["allow_chains"] = False
+            ctx.bot.guilds[ctx.guild_id]["chains"] = {"allow_chains": False}
         ctx.bot.db.child("guilds").child(ctx.guild_id).child("chains").child(
             "allow_chains"
         ).set(False)

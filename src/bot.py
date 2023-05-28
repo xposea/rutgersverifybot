@@ -68,10 +68,8 @@ class NewBot(lightbulb.BotApp):
 
     async def on_started(self, _: hikari.StartedEvent) -> None:
         for guild in await self.rest.fetch_my_guilds():
-            self.guilds[guild.id] = self.db.child("guilds").child(guild.id).get().val()
-            if not self.guilds[guild.id]:
-                self.guilds[guild.id] = {}
-        self.users = self.db.child("users").get().val()
+            self.guilds[guild.id] = self.db.child("guilds").child(guild.id).get().val() or {}
+        self.users = {int(k): v for k,v in self.db.child("users").get().val().items()}
         self.verified_netids = self.db.child("verified_netids").get().val()
         if not self.users:
             self.users = {}

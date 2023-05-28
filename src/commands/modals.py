@@ -1,3 +1,4 @@
+import contextlib
 from datetime import timedelta
 
 import hikari
@@ -56,7 +57,7 @@ class SelectMenu(miru.Select):
         except KeyError:
             ctx.bot.users[ctx.user.id] = {}
             user = ctx.bot.users[ctx.user.id]
-        try:
+        with contextlib.suppress(KeyError):
             if self.values[0] in self.db_guild["guest_roles"]:
                 await ctx.edit_response(
                     "You have been verified for a guest role! Have a good time!",
@@ -77,20 +78,9 @@ class SelectMenu(miru.Select):
                 self.view.stop()
                 await add_join_roles(ctx.bot, ctx.guild_id, ctx.user, self.db_guild)
                 return
-        except KeyError:
-            pass
         try:
             netid = user["netid"]
-        except KeyError:
-            view = ModalView(self.values[0], self.db_guild)
-            message = await ctx.edit_response(
-                "Please verify your Net ID below:",
-                flags=hikari.MessageFlag.EPHEMERAL,
-                components=view,
-            )
-            await view.start(message)
-            return
-        except TypeError:
+        except (KeyError, TypeError):
             view = ModalView(self.values[0], self.db_guild)
             message = await ctx.edit_response(
                 "Please verify your Net ID below:",

@@ -3,7 +3,6 @@ from collections import defaultdict
 import hikari
 import lightbulb
 import miru
-import requests
 
 from src.database.firebase import is_agreement_channel, has_agreement_roles
 from src.commands.modals import SelectMenu, HubMenu
@@ -202,7 +201,7 @@ async def server_hub(ctx: lightbulb.SlashContext):
             status = True
         if status:
             available_guilds[guild.id] = guild
-    if len(available_guilds) == 0:
+    if not available_guilds:
         await ctx.respond(
             "There are no servers to hub to.",
             components=[],
@@ -238,8 +237,6 @@ async def on_error(event: lightbulb.CommandErrorEvent) -> None:
         )
     elif isinstance(event.exception, lightbulb.CheckFailure):
         await event.context.respond(event.exception, flags=hikari.MessageFlag.EPHEMERAL)
-    else:
-        pass
 
 
 # Fun little on ping message
