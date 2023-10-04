@@ -129,7 +129,6 @@ class FirstModal(miru.Modal):
         if not (
             self.netid.value.isalnum()
             and not self.netid.value.isdigit()
-            and not self.netid.value.isalpha()
         ):
             await ctx.edit_response(
                 "Please make sure you're only inputting your NetID!\n"
