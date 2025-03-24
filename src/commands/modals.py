@@ -6,7 +6,7 @@ import miru
 from src.database import firebase as fb
 
 
-class HubMenu(miru.Select):
+class HubMenu(miru.TextSelect):
     __slots__ = ("guilds",)
     def __init__(self, guilds, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -47,7 +47,7 @@ class HubMenu(miru.Select):
         self.view.stop()
 
 
-class SelectMenu(miru.Select):
+class SelectMenu(miru.TextSelect):
     __slots__ = ("db_guild",)
     def __init__(self, db_guild, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -136,7 +136,7 @@ class FirstModal(miru.Modal):
             )
         elif not await fb.test_netid(self.bot, self.netid.value.casefold()):
             await ctx.edit_response(
-                "This NetID has already been verified. Please try again."
+                "This NetID has already been verified. Please try again. Message xposea on Discord if you need help."
             )
         else:
             view = VercodeView(

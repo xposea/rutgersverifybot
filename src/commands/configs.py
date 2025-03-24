@@ -13,7 +13,7 @@ class MainMenu(miru.View):
         self.add_item(CloseMenu(author))
         self.author = author
 
-    @miru.select(
+    @miru.text_select(
         placeholder="Choose a setting to configure:",
         options=[
             miru.SelectOption(
@@ -30,7 +30,7 @@ class MainMenu(miru.View):
             ),
         ],
     )
-    async def select_config(self, select: miru.Select, ctx: miru.Context) -> None:
+    async def select_config(self, select: miru.select, ctx: miru.ViewContext) -> None:
         if ctx.author != self.author:
             return
         match select.values[0]:
@@ -83,7 +83,7 @@ class ModerationMenu(miru.View):
         self.add_item(CloseMenu(author))
         self.author = author
 
-    @miru.select(
+    @miru.text_select(
         placeholder="Moderation Settings",
         options=[
             miru.SelectOption(
@@ -100,7 +100,7 @@ class ModerationMenu(miru.View):
             ),
         ],
     )
-    async def moderation_channel(self, select: miru.Select, ctx: miru.Context) -> None:
+    async def moderation_channel(self, select: miru.select, ctx: miru.ViewContext) -> None:
         if ctx.author != self.author:
             return
         embed = self.message.embeds[0]
@@ -204,7 +204,7 @@ class AgreementMenu(miru.View):
         self.add_item(CloseMenu(author))
         self.author = author
 
-    @miru.select(
+    @miru.text_select(
         placeholder="Agreement Settings",
         options=[
             miru.SelectOption(
@@ -237,7 +237,7 @@ class AgreementMenu(miru.View):
             ),
         ],
     )
-    async def agreement_channel(self, select: miru.Select, ctx: miru.Context) -> None:
+    async def agreement_channel(self, select: miru.select, ctx: miru.ViewContext) -> None:
         if ctx.author != self.author:
             return
         embed = self.message.embeds[0]
@@ -251,6 +251,8 @@ class AgreementMenu(miru.View):
                     return
                 try:
                     netid_roles = db_guild["netid_roles"]
+                    if not netid_roles:
+                        raise KeyError
                 except KeyError:
                     view = AgreementMenu(self.author, timeout=600)
                     message = await ctx.edit_response(
@@ -291,6 +293,8 @@ class AgreementMenu(miru.View):
                     return
                 try:
                     guest_roles = db_guild["guest_roles"]
+                    if not guest_roles:
+                        raise KeyError
                 except KeyError:
                     view = AgreementMenu(self.author, timeout=600)
                     message = await ctx.edit_response(
@@ -331,6 +335,8 @@ class AgreementMenu(miru.View):
                     return
                 try:
                     join_roles = db_guild["join_roles"]
+                    if not join_roles:
+                        raise KeyError
                 except KeyError:
                     view = AgreementMenu(self.author, timeout=600)
                     message = await ctx.edit_response(
@@ -669,7 +675,7 @@ class AgreementMenu(miru.View):
                 await view.start(message)
 
 
-class RolesView(miru.Select):
+class RolesView(miru.TextSelect):
     __slots__ = ('author', 'roles_dict', 'result_function')
     def __init__(
         self, roles_dict: dict, result_function, author, *args, **kwargs
@@ -679,7 +685,7 @@ class RolesView(miru.Select):
         self.result_function = result_function
         self.author = author
 
-    async def callback(self, ctx: miru.Context) -> None:
+    async def callback(self, ctx: miru.ViewContext) -> None:
         if ctx.author != self.author:
             return
         embed = self.view.message.embeds[0]
@@ -694,6 +700,7 @@ class RolesView(miru.Select):
             await view.start(message)
             return
         self.view.stop()
+        print(roles)
         roles.pop(self.values[0])
         response = (
             f"{self.values[0]} has been removed from this server's agreement roles"
@@ -741,7 +748,7 @@ class WelcomeMenu(miru.View):
         self.add_item(CloseMenu(author))
         self.author = author
 
-    @miru.select(
+    @miru.text_select(
         placeholder="Welcome Channel Setup",
         options=[
             miru.SelectOption(
@@ -758,7 +765,7 @@ class WelcomeMenu(miru.View):
             ),
         ],
     )
-    async def welcome_channel(self, select: miru.Select, ctx: miru.Context) -> None:
+    async def welcome_channel(self, select: miru.TextSelect, ctx: miru.ViewContext) -> None:
         if ctx.author != self.author:
             return
         embed = self.message.embeds[0]
